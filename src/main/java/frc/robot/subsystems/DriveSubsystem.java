@@ -66,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
   // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
   // cause the angle reading to increase until it wraps back over to zero.
-  private final AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP
+  private final AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX connected over MXP //will change to pigeon 2.0 when built
   
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule mLeftFront;
@@ -137,22 +137,22 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public CommandBase zeroGyroscopeCommand() {
         return runOnce(() -> {
-                mNavX.zeroYaw();
+                mNavX.zeroYaw(); //will change to pigeon 2.0 when built
         });
   }
 
   public void zeroGyroscope() {
-        mNavX.zeroYaw();
+        mNavX.zeroYaw(); //will change to pigeon 2.0 when built
   }
 
   public Rotation2d getGyroscopeRotation() {
-    if (mNavX.isMagnetometerCalibrated()) {
+    if (mNavX.isMagnetometerCalibrated()) { //will change to pigeon 2.0 when built
       // We will only get valid fused headings if the magnetometer is calibrated
-      return Rotation2d.fromDegrees(mNavX.getFusedHeading());
+      return Rotation2d.fromDegrees(mNavX.getFusedHeading()); //will change to pigeon 2.0 when built
     }
 
     // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
-    return Rotation2d.fromDegrees(360.0 - mNavX.getYaw());
+    return Rotation2d.fromDegrees(360.0 - mNavX.getYaw()); //will change to pigeon 2.0 when built
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
@@ -163,7 +163,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(mChassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-    SmartDashboard.putNumber("NavX Angle", mNavX.getAngle());
+    SmartDashboard.putNumber("NavX Angle", mNavX.getAngle()); //will change to pigeon 2.0 when built
 
     mLeftFront.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
     mRightFront.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
