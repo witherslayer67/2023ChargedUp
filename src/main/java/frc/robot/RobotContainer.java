@@ -37,7 +37,26 @@ public class RobotContainer {
        mDriveSubsystem, () -> -modifyAxis(mXbox.getLeftY()) * mDriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND, () -> -modifyAxis(mXbox.getLeftX()) * mDriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND, () -> -modifyAxis(mXbox.getRightX()) * mDriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     //    driveSubsystem.setDefaultCommand(driveManuallyCommand);
   }
+  private static double deadband(double value, double deadband) {
+		if (Math.abs(value) > deadband) {
+			if (value > 0.0) {
+				return (value - deadband) / (1.0 - deadband);
+			} else {
+				return (value + deadband) / (1.0 - deadband);
+			}
+		} else {
+			return 0.0;
+		}
+	}
 
+  private static double modifyAxis(double value) {
+		// Deadband
+		value = deadband(value, 0.1);
+		// Square the axis
+		value = Math.copySign(value * value, value);
+
+		return value;
+	}
 /*
  * mDrivetrain.setDefaultCommand(new DrivetrainTeleOp(
 				mDrivetrain,
